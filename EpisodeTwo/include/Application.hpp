@@ -11,18 +11,20 @@ public:
    static void Init(uint32_t flags);
    
    Application();
-   ~Application();
    
    void run();
    void stop();
 
-   inline static Logger& GetMainLogger() { return s_mainLogger; }
+   inline static Logger& GetLogger()
+   { 
+      static Logger logger("Episode Two", "ajep2.log");
+      return logger;
+   }
 
 private:
    
    bool m_running;
    Window m_mainWindow;
-   static Logger s_mainLogger;
 };
 
 #endif // APPLICATION_HPP

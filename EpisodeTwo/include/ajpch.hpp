@@ -10,7 +10,6 @@
 #include <queue>
 #include <utility>
 #include <memory>
-#include <filesystem>
 
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>

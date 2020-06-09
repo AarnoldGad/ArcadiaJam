@@ -1,21 +1,19 @@
 #include <Application.hpp>
 #include <glad/glad.h>
 
-Logger Application::s_mainLogger("Episode Two", "ajep2.log");
-
 void Application::Init(uint32_t flags)
 {
-   GetMainLogger().logDebug("Initialising Episode Two...");
+   GetLogger().logDebug("Initialising Episode Two...");
    
    SDL_version sdlVersion;
    SDL_VERSION(&sdlVersion);
-   GetMainLogger().logDebug(" * SDL compiled against ", +sdlVersion.major, ".", +sdlVersion.minor, ".", +sdlVersion.patch, " rev", SDL_GetRevisionNumber());
+   GetLogger().logDebug(" * SDL compiled against ", +sdlVersion.major, ".", +sdlVersion.minor, ".", +sdlVersion.patch, " rev", SDL_GetRevisionNumber());
    SDL_GetVersion(&sdlVersion);
-   GetMainLogger().logDebug(" * SDL linked against ", +sdlVersion.major, ".", +sdlVersion.minor, ".", +sdlVersion.patch, " rev", SDL_GetRevisionNumber());
+   GetLogger().logDebug(" * SDL linked against ", +sdlVersion.major, ".", +sdlVersion.minor, ".", +sdlVersion.patch, " rev", SDL_GetRevisionNumber());
    
    if (SDL_Init((SDL_WasInit(0) ^ flags) & flags))
    {
-      GetMainLogger().logError("SDL Initialisation error : ", SDL_GetError());
+      GetLogger().logError("SDL Initialisation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }
 }
@@ -25,14 +23,14 @@ Application::Application()
 {
    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
    {
-      GetMainLogger().logError("Error loading OpenGL");
+      GetLogger().logError("Error loading OpenGL");
       exit(1); // TODO Error handling
    }
    
-   GetMainLogger().logDebug(" * OpenGL ", glGetString(GL_VERSION));
-   GetMainLogger().logDebug(" *        ", glGetString(GL_RENDERER));
-   GetMainLogger().logDebug(" *        ", glGetString(GL_VENDOR));
-   GetMainLogger().logDebug(" *        ", glGetString(GL_SHADING_LANGUAGE_VERSION));
+   GetLogger().logDebug(" * OpenGL ", glGetString(GL_VERSION));
+   GetLogger().logDebug(" *        ", glGetString(GL_RENDERER));
+   GetLogger().logDebug(" *        ", glGetString(GL_VENDOR));
+   GetLogger().logDebug(" *        ", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 void Application::run()
@@ -76,9 +74,4 @@ void Application::run()
 void Application::stop()
 {
    m_running = false;
-}
-
-Application::~Application()
-{
-   
 }

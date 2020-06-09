@@ -1,6 +1,8 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#include <ResourcesManager.hpp>
+
 class Logger
 {
 public:
@@ -9,7 +11,6 @@ public:
    static std::string const LogLevelName[LEVEL_COUNT];
 
    explicit Logger(std::string const& label, std::string const& fileName = std::string());
-   ~Logger();
    
    template<typename... A>
    void log(LogLevel level, A&&... msgs);
@@ -34,8 +35,7 @@ private:
    void log(std::ostream& output, T const& arg0, A&&... args);
 
    std::string m_label;
-   std::ofstream m_file; // TODO File opened in multiple loggers (Resources Manager)
-   bool m_shouldOutputFile;
+   std::string m_fileName; // TODO File opened in multiple loggers (Resources Manager)
    
 };
 

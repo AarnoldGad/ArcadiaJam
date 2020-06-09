@@ -22,10 +22,10 @@ void Logger::log(LogLevel level, A&&... args)
       return;
    #endif
    
-   if (m_shouldOutputFile)
+   if (!m_fileName.empty() && ResourcesManager::IsFileLoaded(m_fileName))
    {
-      log(m_file, "[", Logger::LogLevelName[level], "] [", m_label, "] ", std::forward<A>(args)...);
-      log(m_file, "\n");
+      log(ResourcesManager::GetFile(m_fileName), "[", Logger::LogLevelName[level], "] [", m_label, "] ", std::forward<A>(args)...);
+      log(ResourcesManager::GetFile(m_fileName), "\n");
    }
 }
 

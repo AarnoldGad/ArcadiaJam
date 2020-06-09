@@ -1,4 +1,6 @@
 #include <Application.hpp>
+#include <ResourcesManager.hpp>
+#include <filesystem>
 
 int main(int argc, char* argv[])
 {
@@ -6,6 +8,6 @@ int main(int argc, char* argv[])
    Application game;
    
    game.run();
-   
+
    return 0;
 }
