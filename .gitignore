@@ -1,3 +1,16 @@
+# Files
+*.workspace
+Makefile
+*.mk
+*.txt
+*.project
+*.log
+
+# Directories
+/.codelite/
+/sub/
+/*/bin/
+
 # Prerequisites
 *.d
 
