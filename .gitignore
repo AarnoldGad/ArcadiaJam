@@ -5,11 +5,14 @@ Makefile
 *.txt
 *.project
 *.log
+*.sln
+*.vcxproj*
 
 # Directories
 /.codelite/
 /sub/
 /*/bin/
+/.vs/
 
 # Prerequisites
 *.d
