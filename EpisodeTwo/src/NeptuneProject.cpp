@@ -1,9 +1,12 @@
-#include <Application.hpp>
+#include <NeptuneProject.hpp>
 #include <glad/glad.h>
 
-void Application::Init(uint32_t flags)
+bool NeptuneProject::s_gladInitialized = false;
+
+void NeptuneProject::Init(uint32_t flags)
 {
    GetLogger().logDebug("Initialising Episode Two...");
+   GetLogger().logDebug(" * Compiled for ", sizeof(size_t) * 8, "bit platform");
    
    SDL_version sdlVersion;
    SDL_VERSION(&sdlVersion);
@@ -16,27 +19,37 @@ void Application::Init(uint32_t flags)
       GetLogger().logError("SDL Initialisation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }
-}
-
-Application::Application()
- : m_running(false), m_mainWindow("Arcadia Jam Ep2", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600 })
-{
+   else
+      GetLogger().logDebug(" * SDL Initialized with flags ", flags);
+   
+   Window initWindow("Init", glm::vec4(0.f), SDL_WINDOW_HIDDEN);
+   
    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
    {
       GetLogger().logError("Error loading OpenGL");
       exit(1); // TODO Error handling
    }
+   else
+      s_gladInitialized = true;
    
    GetLogger().logDebug(" * OpenGL ", glGetString(GL_VERSION));
    GetLogger().logDebug(" *        ", glGetString(GL_RENDERER));
    GetLogger().logDebug(" *        ", glGetString(GL_VENDOR));
    GetLogger().logDebug(" *        ", glGetString(GL_SHADING_LANGUAGE_VERSION));
+   
+   ResourcesManager::Init();
 }
 
-void Application::run()
+void NeptuneProject::Quit()
 {
-   m_running = true;
-   
+   SDL_Quit();
+}
+
+NeptuneProject::NeptuneProject()
+ : m_running(false), m_mainWindow("Arcadia Jam Ep2", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600 }), m_shouldPop(0) {}
+
+void NeptuneProject::gameLoop()
+{
    SDL_Event event;
    uint32_t deltaTime, startTime = SDL_GetTicks();
    
@@ -45,23 +58,34 @@ void Application::run()
       deltaTime = SDL_GetTicks() - startTime;
       startTime = SDL_GetTicks();
       
-      SDL_PollEvent(&event);
-      switch (event.type)
+      for (; m_shouldPop > 0; --m_shouldPop)
+         m_states.pop();
+         
+      State& currentState = *m_states.front();
+      
+      while (SDL_PollEvent(&event))
       {
-         case SDL_WINDOWEVENT:
-            if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+         switch (event.type)
+         {
+            case SDL_WINDOWEVENT:
+               if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+                  stop();
+               break;
+            case SDL_KEYDOWN:
                stop();
-            break;
-         case SDL_KEYDOWN:
-            stop();
-            break;
-         default:
-            break;
+               break;
+            default:
+               currentState.handleEvent(event);
+               break;
+         }
       }
+      
+      currentState.update(deltaTime);
       
       m_mainWindow.clear({ 0.8f, 0.5f, 0.2f, 1.0f });
       
-      // Rendering
+      currentState.render(m_renderMaster);
+      m_renderMaster.finish();
       
       m_mainWindow.swapBuffers();
       
@@ -71,7 +95,13 @@ void Application::run()
    }
 }
 
-void Application::stop()
+void NeptuneProject::popState()
+{
+   if (++m_shouldPop >= m_states.size())
+      m_shouldPop = m_states.size() ? m_states.size() - 1 : 0;
+}
+
+void NeptuneProject::stop()
 {
    m_running = false;
 }

@@ -1,13 +1,22 @@
-#include <Application.hpp>
-#include <ResourcesManager.hpp>
+#include <NeptuneProject.hpp>
+#include <Core/ResourcesManager.hpp>
 #include <filesystem>
 
 int main(int argc, char* argv[])
 {
-   Application::Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER);
-   Application game;
+   NeptuneProject::Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+   NeptuneProject game;
    
-   game.run();
+//   game.run();
+
+   // TODO 14th June
+   // Renderer
+   // RenderMaster
+   // Common Models
+   // RenderStates
+   // Test
+   // Menu State
+   // Phase 1
 
    return 0;
 }

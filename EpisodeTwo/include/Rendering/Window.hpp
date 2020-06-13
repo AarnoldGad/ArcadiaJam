@@ -4,7 +4,7 @@
 class Window
 {
 public:
-   Window(std::string const& title, glm::vec4 rect);
+   Window(std::string const& title, glm::vec4 rect, uint32_t flags = 0);
    ~Window();
    
    void clear(glm::vec4 color);

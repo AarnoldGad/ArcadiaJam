@@ -1,4 +1,4 @@
-#include <Logger.hpp>
+#include <Core/Logger.hpp>
 
 std::string const Logger::LogLevelName[] = { "INFO", "DEBUG", "WARNING", "ERROR" };
 

@@ -1,7 +1,8 @@
-#include <Window.hpp>
+#include <Rendering/Window.hpp>
+#include <NeptuneProject.hpp>
 #include <glad/glad.h>
 
-Window::Window(std::string const& title, glm::vec4 rect)
+Window::Window(std::string const& title, glm::vec4 rect, uint32_t flags)
  : m_window(nullptr), m_context(nullptr)
 {
    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -22,17 +23,17 @@ Window::Window(std::string const& title, glm::vec4 rect)
       SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
    #endif
    
-   m_window = SDL_CreateWindow(title.c_str(), rect.x, rect.y, rect.z, rect.w, SDL_WINDOW_OPENGL);
+   m_window = SDL_CreateWindow(title.c_str(), rect.x, rect.y, rect.z, rect.w, SDL_WINDOW_OPENGL | flags);
    if (!m_window)
    {
-      std::cout << SDL_GetError() << std::endl;
+      NeptuneProject::GetLogger().logError("Window creation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }   
       
    m_context = SDL_GL_CreateContext(m_window);
    if (!m_context)
    {
-      std::cout << SDL_GetError() << std::endl;
+      NeptuneProject::GetLogger().logError("Context creation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }
 }

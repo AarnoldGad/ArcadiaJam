@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <ResourcesManager.hpp>
+#include <Core/ResourcesManager.hpp>
 
 class Logger
 {
@@ -39,6 +39,6 @@ private:
    
 };
 
-#include <Logger.inl>
+#include <Core/Logger.inl>
 
 #endif // LOGGER_HPP
