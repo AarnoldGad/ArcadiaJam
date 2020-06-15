@@ -6,6 +6,7 @@ class Texture
 public:
    
    Texture();
+   ~Texture();
    
    bool loadFromFile(std::string const& file);
    bool loadFromMemory(glm::uvec2 size, unsigned int format, uint8_t const* data);

@@ -1,5 +1,6 @@
 #include <Util/FileHelper.hpp>
 #include <NeptuneProject.hpp>
+#include <Core/Logger.hpp>
 
 std::stringstream FileHelper::ToStream(std::string const& name)
 {

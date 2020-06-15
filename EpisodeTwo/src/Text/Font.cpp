@@ -1,0 +1,63 @@
+#include <NeptuneProject.hpp>
+#include <Text/Font.hpp>
+
+Font::Font()
+ : m_size(0) {}
+ 
+bool Font::loadFromFile(std::string const& file, int size)
+{
+   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+   
+   m_glyphs.clear();
+   m_file = file;
+   m_size = size;
+   FT_Face face;
+   
+   int error = FT_New_Face(NeptuneProject::GetFreetype(), file.c_str(), 0, &face);
+   if (error == FT_Err_Unknown_File_Format)
+   {
+      NeptuneProject::GetLogger().logError("Unrecognized font format : ", m_file);
+      return false;
+   }
+   else if (error)
+   {
+      NeptuneProject::GetLogger().logError("Unable to load font : ", m_file);
+      return false;
+   }
+   
+   FT_Set_Pixel_Sizes(face, 0, m_size);
+   
+   for (int index = 0; index < face->num_glyphs; ++index)
+   {
+      error = FT_Load_Char(face, index, FT_LOAD_RENDER);
+      if (error)
+      {
+         NeptuneProject::GetLogger().logError("Unable to load glyph ", index, " from ", m_file);
+         continue;
+      }
+      
+      m_glyphs.emplace(index, Glyph({face->glyph->bitmap.width  , face->glyph->bitmap.rows},
+                                    {face->glyph->bitmap_left   , face->glyph->bitmap_top},
+                                     face->glyph->advance.x >> 6, face->glyph->bitmap.buffer));
+   }
+   
+   NeptuneProject::GetLogger().logError("Font load ", m_file);
+   FT_Done_Face(face);
+   
+   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+   
+   return true;
+}
+
+Glyph const& Font::getGlyph(int index) const
+{
+   try
+   {
+      return m_glyphs.at(index);
+   }
+   catch (std::out_of_range& e)
+   {
+      NeptuneProject::GetLogger().logError("No glyph at index", index, " from ", m_file);
+      return m_glyphs.at(0);
+   }
+}

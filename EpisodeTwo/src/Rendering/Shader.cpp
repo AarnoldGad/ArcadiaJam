@@ -1,7 +1,7 @@
 #include <Rendering/Shader.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <NeptuneProject.hpp>
 #include <Util/FileHelper.hpp>
+#include <Core/Logger.hpp>
 
 Shader::Shader()
  : m_program(0) {}

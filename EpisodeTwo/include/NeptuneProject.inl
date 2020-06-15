@@ -1,5 +1,5 @@
 template<typename S, typename... A>
-void Application::run(A&&...args)
+void NeptuneProject::run(A&&... args)
 {
    pushState<S>(std::forward<A>(args)...);
    m_running = true;
@@ -8,7 +8,7 @@ void Application::run(A&&...args)
 }
 
 template<typename S, typename... A>
-void Application::pushState(A&&... args)
+void NeptuneProject::pushState(A&&... args)
 {
    m_states.emplace(new S(*this, std::forward<A>(args)...));
 }

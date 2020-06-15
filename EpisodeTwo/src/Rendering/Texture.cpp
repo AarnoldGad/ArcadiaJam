@@ -1,8 +1,6 @@
 #include <Rendering/Texture.hpp>
 #include <NeptuneProject.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <stb_image/stb_image.h>
-#include <glad/glad.h>
+#include <Core/Logger.hpp>
 
 Texture::Texture()
  : m_id(0), m_size(0, 0), m_sWrap(GL_REPEAT), m_tWrap(GL_REPEAT),
@@ -22,7 +20,7 @@ bool Texture::loadFromFile(std::string const& file)
    }
    else
    {
-      loadFromMemory(glm::uvec2(width, height), numChannel == 4 ? GL_RGBA : GL_RGB, data);
+      loadFromMemory({ width, height }, (numChannel == 4 ? GL_RGBA : (numChannel == 3 ? GL_RGB : (numChannel == 2 ? GL_RG : GL_RED))), data);
       stbi_image_free(data);
       NeptuneProject::GetLogger().logDebug("Texture ", file, " loaded");
       return true;
@@ -100,4 +98,9 @@ void Texture::bind() const
 void Texture::Bind(unsigned int id)
 {
    glBindTexture(GL_TEXTURE_2D, id);
+}
+
+Texture::~Texture()
+{
+//   glDeleteTextures(1, &m_id); // TODO Workaround lifetime problem
 }

@@ -1,8 +1,6 @@
 #ifndef VERTEX_HPP
 #define VERTEX_HPP
 
-#include <glad/glad.h>
-
 typedef struct 
 {
    GLsizei size = 0;

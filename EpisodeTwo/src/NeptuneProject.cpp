@@ -1,10 +1,15 @@
 #include <NeptuneProject.hpp>
-#include <glad/glad.h>
+#include <Core/Logger.hpp>
+#include <State.hpp>
 
+Logger NeptuneProject::s_logger("Episode Two");
 bool NeptuneProject::s_gladInitialized = false;
+bool NeptuneProject::s_ftInitialized = false;
+FT_Library NeptuneProject::s_freetype = nullptr;
 
 void NeptuneProject::Init(uint32_t flags)
 {
+   s_logger.setOutputFile("ajep2.log");
    GetLogger().logDebug("Initialising Episode Two...");
    GetLogger().logDebug(" * Compiled for ", sizeof(size_t) * 8, "bit platform");
    
@@ -29,20 +34,38 @@ void NeptuneProject::Init(uint32_t flags)
       GetLogger().logError("Error loading OpenGL");
       exit(1); // TODO Error handling
    }
-   else
-      s_gladInitialized = true;
+   
+   if (FT_Init_FreeType(&s_freetype))
+   {
+      GetLogger().logError("Unable to load freetype");
+      exit(-1);
+   }
+   
+   s_gladInitialized = true;
+   s_ftInitialized = true;
    
    GetLogger().logDebug(" * OpenGL ", glGetString(GL_VERSION));
    GetLogger().logDebug(" *        ", glGetString(GL_RENDERER));
    GetLogger().logDebug(" *        ", glGetString(GL_VENDOR));
    GetLogger().logDebug(" *        ", glGetString(GL_SHADING_LANGUAGE_VERSION));
    
+   int major, minor, patch;
+   FT_Library_Version(s_freetype, &major, &minor, &patch);
+   GetLogger().logDebug(" * Freetype ", major, ".", minor, ".", patch);
+   
    ResourcesManager::Init();
+}
+
+Logger& NeptuneProject::GetLogger()
+{ 
+   return s_logger;
 }
 
 void NeptuneProject::Quit()
 {
    SDL_Quit();
+   FT_Done_FreeType(s_freetype);
+   s_ftInitialized = false;
 }
 
 NeptuneProject::NeptuneProject()
@@ -70,9 +93,6 @@ void NeptuneProject::gameLoop()
             case SDL_WINDOWEVENT:
                if (event.window.event == SDL_WINDOWEVENT_CLOSE)
                   stop();
-               break;
-            case SDL_KEYDOWN:
-               stop();
                break;
             default:
                currentState.handleEvent(event);

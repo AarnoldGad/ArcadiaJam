@@ -1,14 +1,14 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-class Application;
+class NeptuneProject;
 class RenderMaster;
 
 class State
 {
 public:
    
-   explicit State(Application& app) : m_app(app) {}
+   explicit State(NeptuneProject& game) : m_game(game) {}
    virtual ~State() = default;
    
    virtual void handleEvent(SDL_Event const& event) = 0;
@@ -17,7 +17,7 @@ public:
    
 protected:
    
-   Application& m_app;
+   NeptuneProject& m_game;
 };
 
 #endif // STATE_HPP

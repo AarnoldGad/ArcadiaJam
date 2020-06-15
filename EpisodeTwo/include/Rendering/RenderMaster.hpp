@@ -1,17 +1,21 @@
 #ifndef RENDERMASTER_HPP
 #define RENDERMASTER_HPP
 
+#include <Rendering/Renderer.hpp>
+
 class RenderMaster
 {
 public:
    
    RenderMaster() = default;
    
-   void finish() {}
+   void pushRenderer(Renderer& renderer, float weight = 0.f);
+   
+   void finish();
    
 private:
    
-   
+   std::map<float, Renderer*> m_renderers;
 };
 
 #endif // RENDERMASTER_HPP

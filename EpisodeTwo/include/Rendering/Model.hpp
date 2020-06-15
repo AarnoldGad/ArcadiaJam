@@ -2,15 +2,17 @@
 #define MODEL_HPP
 
 #include <Rendering/Transforms.hpp>
+#include <Rendering/VertexArray.hpp>
 
-template<typename Arr, typename V>
+template<typename V>
 class Model : public Transforms
 {
 public:
 
-   template<typename... A>
-   Model(A&&... arrayArgs);
-   virtual ~Model();
+   //template<typename... A>
+   //Model(A&&... arrayArgs);
+   Model(unsigned int mode, size_t vertexCount, unsigned usage);
+   virtual ~Model() = default;
    
    virtual void render() = 0;
    
@@ -21,9 +23,11 @@ protected:
 
    virtual void update() = 0;
    
-   Arr<V> m_vertexArray;
+   VertexArray<V> m_vertexArray;
    
    bool m_needUpdate;
 };
+
+#include <Rendering/Model.inl>
 
 #endif // MODEL_HPP

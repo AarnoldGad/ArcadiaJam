@@ -13,6 +13,10 @@ public:
    static void Init(uint32_t flags);
    static void Quit();
    
+   inline static FT_Library const GetFreetype() { return s_freetype; }
+   
+   static Logger& GetLogger();
+   
    NeptuneProject();
    
    template<typename S, typename... A>
@@ -23,17 +27,14 @@ public:
    void pushState(A&&... args);
    void popState();
 
-   inline static Logger& GetLogger()
-   { 
-      static Logger logger("Episode Two", "ajep2.log");
-      return logger;
-   }
-
 private:
    
    void gameLoop();
    
+   static Logger s_logger;
    static bool s_gladInitialized;
+   static bool s_ftInitialized;
+   static FT_Library s_freetype;
    
    bool m_running;
    Window m_mainWindow;
@@ -41,5 +42,7 @@ private:
    std::queue<std::unique_ptr<State>> m_states;
    unsigned int m_shouldPop;
 };
+
+#include <NeptuneProject.inl>
 
 #endif // NEPTUNEPROJECT_HPP

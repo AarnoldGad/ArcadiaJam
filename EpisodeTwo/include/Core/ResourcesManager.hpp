@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <Rendering/Shader.hpp>
 #include <Rendering/Texture.hpp>
+#include <Text/Font.hpp>
 
 class ResourcesManager
 {
@@ -28,7 +29,10 @@ public:
    static Texture& GetTexture(std::filesystem::path const& file);
    static bool UnloadTexture(std::filesystem::path const& file);
    
-   // TODO Load Font
+   static bool LoadFontFile(std::filesystem::path const& file, int fontSize);
+   static bool IsFontLoaded(std::filesystem::path const& file);
+   static Font& GetFont(std::filesystem::path const& file);
+   static bool UnloadFont(std::filesystem::path const& file);
    
    static void Clear();
    
@@ -39,7 +43,7 @@ private:
    static std::map<std::filesystem::path, std::unique_ptr<std::fstream>> s_files;
    static std::map<std::string, std::unique_ptr<Shader>> s_shaders;
    static std::map<std::filesystem::path, std::unique_ptr<Texture>> s_textures;
-   // TODO fonts
+   static std::map<std::filesystem::path, std::unique_ptr<Font>> s_fonts;
    
 };
 

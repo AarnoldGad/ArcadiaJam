@@ -1,6 +1,6 @@
 #include <Rendering/Window.hpp>
 #include <NeptuneProject.hpp>
-#include <glad/glad.h>
+#include <Core/Logger.hpp>
 
 Window::Window(std::string const& title, glm::vec4 rect, uint32_t flags)
  : m_window(nullptr), m_context(nullptr)

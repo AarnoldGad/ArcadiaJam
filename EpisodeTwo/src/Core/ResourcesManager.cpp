@@ -1,10 +1,11 @@
 #include <Core/ResourcesManager.hpp>
 #include <NeptuneProject.hpp>
-#include <stb_image/stb_image.h>
+#include <Core/Logger.hpp>
 
 std::map<std::filesystem::path, std::unique_ptr<std::fstream>> ResourcesManager::s_files;
 std::map<std::string, std::unique_ptr<Shader>> ResourcesManager::s_shaders;
 std::map<std::filesystem::path, std::unique_ptr<Texture>> ResourcesManager::s_textures;
+std::map<std::filesystem::path, std::unique_ptr<Font>> ResourcesManager::s_fonts;
 
 std::unique_ptr<Texture> ResourcesManager::nullTexture;
 
@@ -23,21 +24,15 @@ void ResourcesManager::Init()
 
 bool ResourcesManager::LoadFile(std::filesystem::path const& filePath, std::ios_base::openmode mode)
 {
-   if (IsFileLoaded(filePath))
-      return true;
+   auto result = s_files.try_emplace(relative(filePath), std::make_unique<std::fstream>(filePath, mode));
    
-   std::fstream* file = new std::fstream(filePath, mode);
-   if (!file)
+   if (!*result.first->second)
    {
       NeptuneProject::GetLogger().logError("Unable to open file : ", filePath);
       return false;
    }
    
-   if (!exists(filePath))
-      return false;
-      
-   s_files.emplace(relative(filePath), file);
-   return true;
+   return result.second ? exists(filePath) : true;
 }
 
 bool ResourcesManager::IsFileLoaded(std::filesystem::path const& filePath)
@@ -48,10 +43,10 @@ bool ResourcesManager::IsFileLoaded(std::filesystem::path const& filePath)
 
 std::fstream& ResourcesManager::GetFile(std::filesystem::path const& filePath)
 {
-   if (!IsFileLoaded(filePath) && !LoadFile(filePath))
+   if (!IsFileLoaded(filePath) /*&& !LoadFile(filePath)*/)
       exit(-1);
       
-   return *(s_files.find(relative(filePath))->second);
+   return *s_files.at(relative(filePath));
 }
 
 bool ResourcesManager::UnloadFile(std::filesystem::path const& file)
@@ -61,12 +56,8 @@ bool ResourcesManager::UnloadFile(std::filesystem::path const& file)
 
 bool ResourcesManager::LoadShaderFile(std::string const& name, std::string const& vertex, std::string const& fragment, std::string const& geometry)
 {
-   if (IsShaderLoaded(name))
-      return true;
-   
-   Shader* shader = new Shader;
-   s_shaders.emplace(name, shader);
-   return shader->loadFromFile(vertex, fragment, geometry);
+   auto result = s_shaders.try_emplace(name, std::make_unique<Shader>());
+   return result.second ? result.first->second->loadFromFile(vertex, fragment, geometry) : true;
 }
 
 bool ResourcesManager::IsShaderLoaded(std::string const& name)
@@ -76,13 +67,15 @@ bool ResourcesManager::IsShaderLoaded(std::string const& name)
 
 Shader& ResourcesManager::GetShader(std::string const& name)
 {
-   if (!IsShaderLoaded(name))
+   try
+   {
+      return *s_shaders.at(name);
+   }
+   catch (std::out_of_range& e)
    {
       NeptuneProject::GetLogger().logError("Unable to retrieve shader ", name);
       exit(-1);
    }
-   
-   return *(s_shaders.find(name)->second);
 }
 
 bool ResourcesManager::UnloadShader(std::string const& name)
@@ -92,12 +85,8 @@ bool ResourcesManager::UnloadShader(std::string const& name)
 
 bool ResourcesManager::LoadTextureFile(std::filesystem::path const& file)
 {
-   if (IsTextureLoaded(file))
-      return true;
-      
-   Texture* tex = new Texture;
-   s_textures.emplace(relative(file), tex);
-   return tex->loadFromFile(file);
+   auto result = s_textures.try_emplace(relative(file), std::make_unique<Texture>());
+   return result.second ? result.first->second->loadFromFile(file) : true;
 }
 
 bool ResourcesManager::IsTextureLoaded(std::filesystem::path const& file)
@@ -110,7 +99,7 @@ Texture& ResourcesManager::GetTexture(std::filesystem::path const& file)
    if (!IsTextureLoaded(file) && !LoadTextureFile(file))
       return *nullTexture;
    
-   return *(s_textures.find(file)->second);
+   return *s_textures.at(relative(file));
 }
 
 bool ResourcesManager::UnloadTexture(std::filesystem::path const& file)
@@ -118,10 +107,37 @@ bool ResourcesManager::UnloadTexture(std::filesystem::path const& file)
    return s_textures.erase(relative(file));
 }
 
+bool ResourcesManager::LoadFontFile(std::filesystem::path const& file, int fontSize)
+{
+   auto result = s_fonts.emplace(relative(file), std::make_unique<Font>());
+   return result.second ? result.first->second->loadFromFile(file, fontSize) : true;
+}
+
+bool ResourcesManager::IsFontLoaded(std::filesystem::path const& file)
+{
+   return s_fonts.find(relative(file)) != s_fonts.end();
+}
+
+Font& ResourcesManager::GetFont(std::filesystem::path const& file)
+{
+   if (!IsFontLoaded(file) /*&& !LoadFontFile(file, 16)*/)
+   {
+      NeptuneProject::GetLogger().logError("Unable to retrieve font ", file);
+      exit(-1);
+   }
+   
+   return *s_fonts.at(relative(file));
+}
+
+bool ResourcesManager::UnloadFont(std::filesystem::path const& file)
+{
+   return s_fonts.erase(relative(file));
+}
+
 void ResourcesManager::Clear()
 {
    s_files.clear();
    s_shaders.clear();
    s_textures.clear();
-   // TODO Fonts
+   s_fonts.clear();
 }
