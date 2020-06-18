@@ -27,6 +27,8 @@ public:
    void pushState(A&&... args);
    void popState();
 
+   inline Window& getWindow() { return m_mainWindow; }
+
 private:
    
    void gameLoop();

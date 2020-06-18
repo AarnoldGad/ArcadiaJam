@@ -1,6 +1,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include <Rendering/Shader.hpp>
 #include <Rendering/Transforms.hpp>
 #include <Rendering/VertexArray.hpp>
 
@@ -14,7 +15,7 @@ public:
    Model(unsigned int mode, size_t vertexCount, unsigned usage);
    virtual ~Model() = default;
    
-   virtual void render() = 0;
+   virtual void render(Shader& shader) = 0;
    
    void setPointCount(size_t count);
    inline size_t getPointCount() const { return m_vertexArray.getVertexCount(); }

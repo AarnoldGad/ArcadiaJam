@@ -18,8 +18,10 @@ Text::Text(std::string const& text, Font const& font)
    m_vertexArray[3].setTextureCoordinates({ 1.f, 1.f });
 }
 
-void Text::render()
+void Text::render(Shader& shader)
 {
+   shader.setMatrix4("Model", getTransformsAsMatrix());
+   
    if (m_needUpdate)
       update();
    
@@ -28,7 +30,7 @@ void Text::render()
    
    for (char it : m_text)
    {
-      Glyph glyph = m_font->getGlyph(it);
+      Glyph glyph = m_font->getGlyph(static_cast<unsigned long>(it));
       penPos.x = offset + glyph.getBearing().x;
       penPos.y = glyph.getBearing().y - glyph.getSize().y;
       w = glyph.getSize().x;

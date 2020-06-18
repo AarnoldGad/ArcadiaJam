@@ -4,7 +4,7 @@
 Font::Font()
  : m_size(0) {}
  
-bool Font::loadFromFile(std::string const& file, int size)
+bool Font::loadFromFile(std::string const& file, size_t size)
 {
    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
    
@@ -26,22 +26,45 @@ bool Font::loadFromFile(std::string const& file, int size)
    }
    
    FT_Set_Pixel_Sizes(face, 0, m_size);
+   FT_Select_Charmap(face, FT_ENCODING_UNICODE);
    
-   for (int index = 0; index < face->num_glyphs; ++index)
+   NeptuneProject::GetLogger().logDebug("Font ", file, " contains ", face->num_glyphs, " glyphs");
+   
+//   for (int index = 0; index < face->num_glyphs; ++index)
+//   {
+//      error = FT_Load_Char(face, index, FT_LOAD_RENDER);
+//      if (error)
+//      {
+//         NeptuneProject::GetLogger().logError("Unable to load glyph ", index, " from ", m_file);
+//         continue;
+//      }
+//      
+//      m_glyphs.emplace(index, Glyph({face->glyph->bitmap.width  , face->glyph->bitmap.rows},
+//                                    {face->glyph->bitmap_left   , face->glyph->bitmap_top},
+//                                     face->glyph->advance.x >> 6, face->glyph->bitmap.buffer));
+//   }
+//   
+   unsigned int glyphIndex = 0;
+   unsigned long charcode = 0;
+   charcode = FT_Get_First_Char(face, &glyphIndex);
+   while (glyphIndex != 0)
    {
-      error = FT_Load_Char(face, index, FT_LOAD_RENDER);
+      
+      error = FT_Load_Char(face, charcode, FT_LOAD_RENDER);
       if (error)
       {
-         NeptuneProject::GetLogger().logError("Unable to load glyph ", index, " from ", m_file);
+         NeptuneProject::GetLogger().logError("Unable to load glyph ", charcode, " from ", m_file);
          continue;
       }
       
-      m_glyphs.emplace(index, Glyph({face->glyph->bitmap.width  , face->glyph->bitmap.rows},
-                                    {face->glyph->bitmap_left   , face->glyph->bitmap_top},
-                                     face->glyph->advance.x >> 6, face->glyph->bitmap.buffer));
+      m_glyphs.emplace(charcode, Glyph({face->glyph->bitmap.width  , face->glyph->bitmap.rows},
+                                       {face->glyph->bitmap_left   , face->glyph->bitmap_top},
+                                        face->glyph->advance.x >> 6, face->glyph->bitmap.buffer));
+      
+      charcode = FT_Get_Next_Char(face, charcode, &glyphIndex);
    }
    
-   NeptuneProject::GetLogger().logError("Font load ", m_file);
+   NeptuneProject::GetLogger().logDebug("Font ", m_file, " loaded ", getGlyphCount(), " glyphs");
    FT_Done_Face(face);
    
    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -49,7 +72,7 @@ bool Font::loadFromFile(std::string const& file, int size)
    return true;
 }
 
-Glyph const& Font::getGlyph(int index) const
+Glyph const& Font::getGlyph(unsigned long index) const
 {
    try
    {
@@ -57,7 +80,7 @@ Glyph const& Font::getGlyph(int index) const
    }
    catch (std::out_of_range& e)
    {
-      NeptuneProject::GetLogger().logError("No glyph at index", index, " from ", m_file);
-      return m_glyphs.at(0);
+      NeptuneProject::GetLogger().logError("No glyph at index ", index, " from ", m_file);
+      return m_glyphs.begin()->second;
    }
 }

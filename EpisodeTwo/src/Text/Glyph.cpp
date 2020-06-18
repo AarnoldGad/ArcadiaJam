@@ -1,6 +1,6 @@
 #include <Text/Glyph.hpp>
 
-Glyph::Glyph(glm::uvec2 size, glm::uvec2 bearing, unsigned int advance, uint8_t const* data)
+Glyph::Glyph(glm::ivec2 size, glm::ivec2 bearing, unsigned int advance, uint8_t const* data)
  : m_size(size), m_bearing(bearing), m_advance(advance)
 {
    m_texture.loadFromMemory(m_size, GL_RED, data);

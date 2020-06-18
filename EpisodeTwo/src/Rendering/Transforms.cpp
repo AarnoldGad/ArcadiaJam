@@ -12,7 +12,7 @@ glm::mat4 const& Transforms::getTransformsAsMatrix() const
       m_transforms = glm::scale(m_transforms, glm::vec3(m_scale, 1.f));
       m_transforms = glm::translate(m_transforms, glm::vec3(m_pos, 0.f));
       m_transforms = glm::rotate(m_transforms, m_rotation, {0.f, 0.f, 1.f});
-      m_transforms = glm::translate(m_transforms, glm::vec3(m_origin, 0.f));
+      m_transforms = glm::translate(m_transforms, glm::vec3(-m_origin, 0.f));
       
       m_needUpdateTransforms = false;
    }

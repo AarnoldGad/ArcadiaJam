@@ -10,11 +10,14 @@ public:
    void clear(glm::vec4 color);
    void swapBuffers();
    
+   inline glm::vec2 getSize() const { return glm::vec2(m_rect.z, m_rect.w); }
+   
    inline SDL_Window* getWindowHandle() const { return m_window; }
    
 private:   
    SDL_Window* m_window;
    SDL_GLContext m_context;
+   glm::vec4 m_rect;
 };
 
 #endif // WINDOW_HPP

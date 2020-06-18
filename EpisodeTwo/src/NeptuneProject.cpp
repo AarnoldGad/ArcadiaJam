@@ -29,13 +29,13 @@ void NeptuneProject::Init(uint32_t flags)
    
    Window initWindow("Init", glm::vec4(0.f), SDL_WINDOW_HIDDEN);
    
-   if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
+   if (!s_gladInitialized && !gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
    {
       GetLogger().logError("Error loading OpenGL");
       exit(1); // TODO Error handling
    }
    
-   if (FT_Init_FreeType(&s_freetype))
+   if (!s_ftInitialized && FT_Init_FreeType(&s_freetype))
    {
       GetLogger().logError("Unable to load freetype");
       exit(-1);
@@ -65,6 +65,7 @@ void NeptuneProject::Quit()
 {
    SDL_Quit();
    FT_Done_FreeType(s_freetype);
+   ResourcesManager::Clear();
    s_ftInitialized = false;
 }
 

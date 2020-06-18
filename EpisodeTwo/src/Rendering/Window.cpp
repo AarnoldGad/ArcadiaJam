@@ -3,7 +3,7 @@
 #include <Core/Logger.hpp>
 
 Window::Window(std::string const& title, glm::vec4 rect, uint32_t flags)
- : m_window(nullptr), m_context(nullptr)
+ : m_window(nullptr), m_context(nullptr), m_rect(rect)
 {
    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);

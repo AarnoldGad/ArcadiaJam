@@ -10,12 +10,10 @@ int main(int argc, char* argv[])
    game.run<MainMenuState>();
 
    // TODO 14th June
-   // Renderer
-   // RenderMaster
-   // Common Models
-   // RenderStates
    // Menu State
    // Phase 1
+   
+   NeptuneProject::Quit();
 
    return 0;
 }
