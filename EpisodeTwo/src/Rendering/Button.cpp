@@ -17,13 +17,17 @@ void Button::render(RenderStates const& states)
 {
    Sprite::render(states);
    
-   m_textShader->bind();
-   m_textShader->setMatrix4("Projection", states.getProjection());
-   
-   m_text.setPosition(getPosition());
-   m_text.render(RenderStates(*m_textShader, states.getView(), states.getProjection()));
-   
-   states.getShader().bind();
+   if (m_textShader)
+   {
+      m_textShader->bind();
+      m_textShader->setMatrix4("View", states.getView());
+      m_textShader->setMatrix4("Projection", states.getProjection());
+      
+      m_text.setPosition(getPosition());
+      m_text.render(RenderStates(*m_textShader, states.getView(), states.getProjection()));
+      
+      states.getShader().bind();
+   }
 }
 
 bool Button::isClicked(glm::vec2 point)
@@ -39,7 +43,6 @@ bool Button::isClicked(glm::vec2 point)
 void Button::setText(std::string const& text)
 {
    m_text.setText(text);
-   m_text.setPosition(getPosition());
    m_text.setOrigin({ m_text.getLocalBounds().z / 2, m_text.getLocalBounds().w / 2});
 }
 

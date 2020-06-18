@@ -1,6 +1,7 @@
 #include <NeptuneProject.hpp>
 #include <Core/ResourcesManager.hpp>
 #include <Game/State/MainMenuState.hpp>
+#include <Game/State/CreditsState.hpp>
 
 int main(int argc, char* argv[])
 {

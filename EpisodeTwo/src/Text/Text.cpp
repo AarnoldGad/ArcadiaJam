@@ -28,17 +28,16 @@ void Text::render(RenderStates const& states)
       update();
    
    float offsetX = 0, offsetY = 0, w, h, maxLineHeight = 0;
-   int lineBreak = 0;
    glm::vec2 penPos(0.f);
 
    for (char it : m_text)
    {
       if (it == '\n')
       {
-         ++lineBreak;
+         offsetY += maxLineHeight ? maxLineHeight + (s_lineSpacingFactor * static_cast<float>(m_font->getSize())) : m_font->getSize();
          
          offsetX = 0;
-         offsetY += maxLineHeight + (s_lineSpacingFactor * static_cast<float>(m_font->getSize()));
+         maxLineHeight = 0;
          
          continue;
       }
@@ -63,8 +62,6 @@ void Text::render(RenderStates const& states)
       
       offsetX += glyph.getAdvance();
    }
-   
-   m_lineBreakOffset = offsetY;
 }
 
 glm::mat4 const& Text::getTransformsAsMatrix() const
@@ -93,21 +90,6 @@ void Text::update()
 
 void Text::updateBounds()
 {
-//   float width = 0, height = 0;
-//   
-//   for (char it : m_text)
-//   {
-//      glm::vec2 size = m_font->getGlyph(it).getSize();
-//      if (size.y > height)
-//         height = size.y;
-//      width += static_cast<float>(m_font->getGlyph(it).getAdvance());
-//   }
-//   
-//   m_bounds = {0.f, 0.f, width, height};
-//   
-//   m_needUpdateBounds = false;
-//   
-
    float width = 0, height = 0, lineLength = 0, lineHeight = 0;
    
    for (char it : m_text)
@@ -116,8 +98,8 @@ void Text::updateBounds()
       {
          if (lineLength > width) // Retrieve maximum width
             width = lineLength;
-            
-         height += lineHeight + (s_lineSpacingFactor * static_cast<float>(m_font->getSize()));
+         
+         height += lineHeight ? lineHeight + (s_lineSpacingFactor * static_cast<float>(m_font->getSize())) : m_font->getSize();
          
          lineLength = 0;
          lineHeight = 0;
@@ -137,9 +119,34 @@ void Text::updateBounds()
       
    height += lineHeight;
    
+   m_lineBreakOffset = computeLineBreakOffset();
+   
    m_bounds = { 0.f, 0.f, width, height};
    
    m_needUpdateBounds = false;
+}
+
+float Text::computeLineBreakOffset()
+{
+   float offsetY = 0, h, maxLineHeight = 0;
+
+   for (char it : m_text)
+   {
+      if (it == '\n')
+      {
+         offsetY += maxLineHeight ? maxLineHeight + (s_lineSpacingFactor * static_cast<float>(m_font->getSize())) : m_font->getSize();
+         maxLineHeight = 0;
+         continue;
+      }
+      
+      Glyph glyph = m_font->getGlyph(static_cast<unsigned long>(it));
+      h = glyph.getSize().y;
+      
+      if (h > maxLineHeight)
+         maxLineHeight = h;
+   }
+   
+   return offsetY;
 }
 
 void Text::setText(std::string const& text)

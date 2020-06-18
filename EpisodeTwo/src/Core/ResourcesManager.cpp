@@ -136,6 +136,7 @@ bool ResourcesManager::UnloadFont(std::filesystem::path const& file)
 
 void ResourcesManager::Clear()
 {
+   NeptuneProject::GetLogger().logDebug("Unloading");
    s_files.clear();
    s_shaders.clear();
    s_textures.clear();

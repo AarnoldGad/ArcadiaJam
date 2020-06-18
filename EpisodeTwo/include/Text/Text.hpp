@@ -34,6 +34,8 @@ private:
    void update() override;
    void updateBounds();
    
+   float computeLineBreakOffset();
+   
    float m_lineBreakOffset;
    
    std::string m_text;
