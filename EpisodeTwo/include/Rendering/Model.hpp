@@ -1,21 +1,17 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include <Rendering/Shader.hpp>
+#include <Rendering/Renderable.hpp>
 #include <Rendering/Transforms.hpp>
 #include <Rendering/VertexArray.hpp>
 
 template<typename V>
-class Model : public Transforms
+class Model : public Transforms, public Renderable
 {
 public:
 
-   //template<typename... A>
-   //Model(A&&... arrayArgs);
    Model(unsigned int mode, size_t vertexCount, unsigned usage);
    virtual ~Model() = default;
-   
-   virtual void render(Shader& shader) = 0;
    
    void setPointCount(size_t count);
    inline size_t getPointCount() const { return m_vertexArray.getVertexCount(); }
@@ -25,7 +21,6 @@ protected:
    virtual void update() = 0;
    
    VertexArray<V> m_vertexArray;
-   
    bool m_needUpdate;
 };
 

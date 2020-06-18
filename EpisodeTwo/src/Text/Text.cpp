@@ -10,7 +10,7 @@ Text::Text()
 }
 
 Text::Text(std::string const& text, Font const& font)
- : Model(GL_TRIANGLES, 4, GL_STATIC_DRAW), m_text(text), m_font(&font), m_color(1.f), m_needUpdateBounds(true)
+ : Model(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_text(text), m_font(&font), m_color(1.f), m_needUpdateBounds(true)
 {
    m_vertexArray[0].setTextureCoordinates({ 0.f, 0.f });
    m_vertexArray[1].setTextureCoordinates({ 0.f, 1.f });
@@ -18,9 +18,9 @@ Text::Text(std::string const& text, Font const& font)
    m_vertexArray[3].setTextureCoordinates({ 1.f, 1.f });
 }
 
-void Text::render(Shader& shader)
+void Text::render(RenderStates const& states)
 {
-   shader.setMatrix4("Model", getTransformsAsMatrix());
+   states.getShader().setMatrix4("Model", getTransformsAsMatrix());
    
    if (m_needUpdate)
       update();

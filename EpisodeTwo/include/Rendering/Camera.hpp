@@ -10,7 +10,6 @@ public:
    
    explicit Camera(glm::vec2 pos, glm::vec4 viewport = glm::vec4(0.f, 0.f, 1.f, 1.f), float rotation = 0.f);
    
-   
    glm::mat4 const& getTransformsAsMatrix() const override;
    
    void setViewport(glm::vec4 viewport);

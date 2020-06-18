@@ -16,7 +16,7 @@ template<typename V>
 void VertexArray<V>::draw()
 {
    glBindVertexArray(m_vao);
-   glDrawArrays(m_mode, 0, (GLsizei) getVertexCount());
+   glDrawArrays(m_mode, 0, static_cast<GLsizei>(getVertexCount()));
    glBindVertexArray(0);
 }
 

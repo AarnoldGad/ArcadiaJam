@@ -6,6 +6,7 @@
 #include <Rendering/Texture.hpp>
 #include <Text/Font.hpp>
 
+// TODO Go for shared_ptr storage to prevent destroying an object being used elsewhere
 class ResourcesManager
 {
 public:

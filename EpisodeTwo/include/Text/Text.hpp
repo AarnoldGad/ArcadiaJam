@@ -10,9 +10,9 @@ public:
    
    Text();
    Text(std::string const& text, Font const& font);
-   ~Text() = default;
+   virtual ~Text() = default;
    
-   void render(Shader& shader) override;
+   void render(RenderStates const& states) override;
    
    void setText(std::string const& text);
    void setFont(Font const& font);

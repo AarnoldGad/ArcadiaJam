@@ -7,10 +7,9 @@ class Sprite : public Model2D
 {
 public:
    
-   Sprite();
-   explicit Sprite(Texture& texture);
+   explicit Sprite(Texture const& texture);
    
-   void render(Shader& shader) override;
+   void render(RenderStates const& states) override;
    
    void setSize(glm::uvec2 size);
    void setColorMap(glm::vec4 targetColor, glm::vec4 replaceColor);

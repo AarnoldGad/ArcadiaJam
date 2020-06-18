@@ -1,21 +1,18 @@
 #include <Rendering/Sprite.hpp>
 #include <NeptuneProject.hpp>
 
-Sprite::Sprite()
- : Model2D(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_size(0.f), m_targetColor(1.f), m_replaceColor(1.f) {}
-
-Sprite::Sprite(Texture& texture)
+Sprite::Sprite(Texture const& texture)
  : Model2D(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_size(texture.getSize()), m_targetColor(1.f), m_replaceColor(1.f)
 {
    setTexture(texture);
 }
 
-void Sprite::render(Shader& shader)
+void Sprite::render(RenderStates const& states)
 {
-   shader.setVector4("TargetColor", m_targetColor);
-   shader.setVector4("ReplaceColor", m_replaceColor);
+   states.getShader().setVector4("TargetColor", m_targetColor);
+   states.getShader().setVector4("ReplaceColor", m_replaceColor);
    
-   Model2D::render(shader);
+   Model2D::render(states);
 }
 
 void Sprite::updatePositions()

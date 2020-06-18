@@ -3,9 +3,9 @@
 Model2D::Model2D(unsigned int mode, size_t vertexCount, unsigned int usage)
  : Model(mode, vertexCount, usage), m_texture(nullptr), m_textureRect(0.f), m_globalColor(1.f), m_bounds(0.f), m_needUpdateBounds(true) {}
 
-void Model2D::render(Shader& shader)
+void Model2D::render(RenderStates const& states)
 {
-   shader.setMatrix4("Model", getTransformsAsMatrix());
+   states.getShader().setMatrix4("Model", getTransformsAsMatrix());
    
    if (m_needUpdate)
    {
@@ -76,7 +76,7 @@ void Model2D::updateBounds()
    m_needUpdateBounds = false;
 }
 
-void Model2D::setTexture(Texture& texture, bool resetRect)
+void Model2D::setTexture(Texture const& texture, bool resetRect)
 {
    m_texture = &texture;
    if (resetRect)
@@ -97,7 +97,7 @@ void Model2D::setColor(glm::vec4 color)
    m_needUpdate = true;
 }
 
-Texture& Model2D::getTexture() const
+Texture const& Model2D::getTexture() const
 {
    if (m_texture)
       return *m_texture;

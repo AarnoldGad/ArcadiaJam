@@ -91,7 +91,7 @@ bool Shader::checkLinkStatus(unsigned int program) const
    return true;
 }
 
-int Shader::getUniformLocation(std::string const& name)
+int Shader::getUniformLocation(std::string const& name) const
 {
    int location;
    
@@ -112,37 +112,37 @@ int Shader::getUniformLocation(std::string const& name)
    return location;
 }
 
-void Shader::setBoolean(std::string const& name, bool value)
+void Shader::setBoolean(std::string const& name, bool value) const
 {
    return setInteger(name, static_cast<int>(value));
 }
 
-void Shader::setInteger(std::string const& name, int value)
+void Shader::setInteger(std::string const& name, int value) const
 {
    glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setFloat(std::string const& name, float value)
+void Shader::setFloat(std::string const& name, float value) const
 {
    glUniform1f(getUniformLocation(name), value);
 }
 
-void Shader::setVector2(std::string const& name, glm::vec2 value)
+void Shader::setVector2(std::string const& name, glm::vec2 value) const
 {
    glUniform2f(getUniformLocation(name), value.x, value.y);
 }
 
-void Shader::setVector3(std::string const& name, glm::vec3 value)
+void Shader::setVector3(std::string const& name, glm::vec3 value) const
 {
    glUniform3f(getUniformLocation(name), value.x, value.y, value.z);
 }
 
-void Shader::setVector4(std::string const& name, glm::vec4 value)
+void Shader::setVector4(std::string const& name, glm::vec4 value) const
 {
    glUniform4f(getUniformLocation(name), value.x, value.y, value.z, value.w);
 }
 
-void Shader::setMatrix4(std::string const& name, glm::mat4 value, bool transpose)
+void Shader::setMatrix4(std::string const& name, glm::mat4 value, bool transpose) const
 {
    glUniformMatrix4fv(getUniformLocation(name), 1, transpose ? GL_TRUE : GL_FALSE, glm::value_ptr(value));
 }

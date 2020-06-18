@@ -1,11 +1,14 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-class Renderer
+#include <Rendering/RenderStates.hpp>
+
+class Renderer : public RenderStates
 {
 public:
    
-   Renderer() = default;
+   Renderer(Shader const& shader, glm::mat4 view, glm::mat4 projection) : RenderStates(shader, view, projection) {}
+   virtual ~Renderer() = default;
    
    virtual void render() = 0;
 };

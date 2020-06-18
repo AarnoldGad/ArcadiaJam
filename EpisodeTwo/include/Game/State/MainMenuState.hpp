@@ -2,7 +2,7 @@
 #define MAINMENUSTATE_HPP
 
 #include <State.hpp>
-#include <Game/Rendering/MenuRenderer.hpp>
+#include <Game/Rendering/Renderer2D.hpp>
 #include <Game/Rendering/TestRenderer.hpp>
 
 class MainMenuState : public State
@@ -18,7 +18,13 @@ public:
    
 private:
    
-   std::unique_ptr<MenuRenderer> m_menuRenderer;
+   std::unique_ptr<Renderer2D> m_menuRenderer;
+   Sprite* m_background;
+   Sprite* m_title;
+   
+   Button* m_playButton;
+   Button* m_creditsButton;
+   Button* m_quitButton;
 };
 
 #endif // MAINMENUSTATE_HPP
