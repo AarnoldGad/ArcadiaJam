@@ -14,6 +14,7 @@ Makefile
 /sub/
 /*/bin/
 /.vs/
+/EpisodeTwo/assets/musics/
 
 # Prerequisites
 *.d

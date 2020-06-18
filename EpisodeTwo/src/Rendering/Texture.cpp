@@ -102,5 +102,5 @@ void Texture::Bind(unsigned int id)
 
 Texture::~Texture()
 {
-//   glDeleteTextures(1, &m_id); // TODO Workaround lifetime problem
+//   glDeleteTextures(1, &m_id); // TODO Workaround lifetime problem when destructing temporary objects
 }

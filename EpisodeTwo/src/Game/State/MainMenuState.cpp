@@ -22,6 +22,9 @@ MainMenuState::MainMenuState(NeptuneProject& game)
    m_menuRenderer.reset(new Renderer2D(ResourcesManager::GetShader("sprite"),
                                        glm::mat4(1.f), glm::ortho(0.f, windowSize.x, 0.f, windowSize.y )));
    
+   m_cursor = new Sprite(ResourcesManager::GetTexture("assets/ui/cursor.png"));
+   m_cursor->setOrigin({ 0.f, m_cursor->getSize().y });
+   
    m_background = new Sprite(ResourcesManager::GetTexture("assets/ui/menu_background.png"));
    m_background->setSize(windowSize);
    
@@ -37,10 +40,9 @@ MainMenuState::MainMenuState(NeptuneProject& game)
                              ResourcesManager::GetFont("assets/fonts/pixel.ttf"), ResourcesManager::GetShader("text"));
    m_creditsButton->setPosition({ windowSize.x / 2, windowSize.y / 6 * 2 });
    
-   m_quitButton = new Button(ResourcesManager::GetTexture("assets/ui/button.png"), "Quitter",
+   m_quitButton = new Button(ResourcesManager::GetTexture("assets/ui/button.png"), "Quit",
                              ResourcesManager::GetFont("assets/fonts/pixel.ttf"), ResourcesManager::GetShader("text"));
    m_quitButton->setPosition({ windowSize.x / 2, windowSize.y / 6 });
-   
 }
 
 void MainMenuState::handleEvent(SDL_Event const& event)
@@ -59,7 +61,9 @@ void MainMenuState::handleEvent(SDL_Event const& event)
 
 void MainMenuState::update(uint32_t dt)
 {
-   
+   int mouseX, mouseY;
+   SDL_GetMouseState(&mouseX, &mouseY);
+   m_cursor->setPosition({ mouseX, m_game.getWindow().getSize().y - mouseY });
 }
 
 void MainMenuState::render(RenderMaster& master)
@@ -69,5 +73,6 @@ void MainMenuState::render(RenderMaster& master)
    m_menuRenderer->pushObject(*m_playButton, 1.f);
    m_menuRenderer->pushObject(*m_creditsButton, 1.f);
    m_menuRenderer->pushObject(*m_quitButton, 1.f);
+   m_menuRenderer->pushObject(*m_cursor, 10.f);
    master.pushRenderer(*m_menuRenderer);
 }
