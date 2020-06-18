@@ -3,7 +3,6 @@
 
 #include <State.hpp>
 #include <Game/Rendering/Renderer2D.hpp>
-#include <Game/Rendering/TestRenderer.hpp>
 
 class MainMenuState : public State
 {
@@ -20,13 +19,13 @@ private:
    
    std::unique_ptr<Renderer2D> m_menuRenderer;
    
-   Sprite* m_cursor;
-   Sprite* m_background;
-   Sprite* m_title;
+   std::unique_ptr<Sprite> m_cursor;
+   std::unique_ptr<Sprite> m_background;
+   std::unique_ptr<Sprite> m_title;
    
-   Button* m_playButton;
-   Button* m_creditsButton;
-   Button* m_quitButton;
+   std::unique_ptr<Button> m_playButton;
+   std::unique_ptr<Button> m_creditsButton;
+   std::unique_ptr<Button> m_quitButton;
    
    uint32_t m_buttonHoverTime;
 };

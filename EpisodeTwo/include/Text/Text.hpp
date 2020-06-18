@@ -14,6 +14,8 @@ public:
    
    void render(RenderStates const& states) override;
    
+   glm::mat4 const& getTransformsAsMatrix() const override;
+   
    void setText(std::string const& text);
    void setFont(Font const& font);
    void setColor(glm::vec4 color);
@@ -27,8 +29,12 @@ public:
    
 private:
 
+   static float const s_lineSpacingFactor;
+
    void update() override;
    void updateBounds();
+   
+   float m_lineBreakOffset;
    
    std::string m_text;
    Font const* m_font;
