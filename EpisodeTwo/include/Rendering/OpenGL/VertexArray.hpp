@@ -2,7 +2,7 @@
 #define VERTEXARRAY_HPP
 
 #include <NeptuneProject.hpp>
-#include <Rendering/Vertex.hpp>
+#include <Rendering/Abstract/Vertex.hpp>
 
 template<typename V>
 class VertexArray
@@ -34,6 +34,6 @@ private:
    bool m_sizeChanged;
 };
 
-#include <Rendering/VertexArray.inl>
+#include <Rendering/OpenGL/VertexArray.inl>
 
 #endif // VERTEXARRAY_HPP

@@ -1,4 +1,4 @@
-#include <Rendering/Vertex2D.hpp>
+#include <Rendering/Common/Vertex2D.hpp>
 #include <NeptuneProject.hpp>
 
 Vertex2D::Vertex2D(glm::vec2 pos, glm::vec4 color, glm::vec2 textureCoordinates)

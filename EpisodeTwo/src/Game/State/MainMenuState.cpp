@@ -1,5 +1,6 @@
 #include <Game/State/MainMenuState.hpp>
 #include <Game/State/CreditsState.hpp>
+#include <Game/State/PhaseOneState.hpp>
 
 MainMenuState::MainMenuState(NeptuneProject& game)
  : State(game)
@@ -17,7 +18,7 @@ MainMenuState::MainMenuState(NeptuneProject& game)
    ResourcesManager::LoadShaderFile("text", "assets/shaders/text.vs", "assets/shaders/text.fs");
    
    // Load Fonts
-   ResourcesManager::LoadFontFile("assets/fonts/pixel.ttf", 32);
+   ResourcesManager::LoadFontFile("assets/fonts/dogica.ttf", 22);
    
    glm::vec2 windowSize = m_game.getWindow().getSize();
    m_menuRenderer.reset(new Renderer2D(ResourcesManager::GetShader("sprite"), glm::mat4(1.f), glm::ortho(0.f, windowSize.x, 0.f, windowSize.y )));
@@ -33,15 +34,15 @@ MainMenuState::MainMenuState(NeptuneProject& game)
    m_title->setOrigin({ m_title->getLocalBounds().z / 2.f, m_title->getLocalBounds().w / 2.f });
    
    m_playButton.reset(new Button(ResourcesManager::GetTexture("assets/ui/button.png"), "Play",
-                             ResourcesManager::GetFont("assets/fonts/pixel.ttf"), ResourcesManager::GetShader("text")));
+                             ResourcesManager::GetFont("assets/fonts/dogica.ttf"), ResourcesManager::GetShader("text")));
    m_playButton->setPosition({ windowSize.x / 2, windowSize.y / 6 * 3 });
    
    m_creditsButton.reset(new Button(ResourcesManager::GetTexture("assets/ui/button.png"), "Credits",
-                             ResourcesManager::GetFont("assets/fonts/pixel.ttf"), ResourcesManager::GetShader("text")));
+                             ResourcesManager::GetFont("assets/fonts/dogica.ttf"), ResourcesManager::GetShader("text")));
    m_creditsButton->setPosition({ windowSize.x / 2, windowSize.y / 6 * 2 });
    
    m_quitButton.reset(new Button(ResourcesManager::GetTexture("assets/ui/button.png"), "Quit",
-                             ResourcesManager::GetFont("assets/fonts/pixel.ttf"), ResourcesManager::GetShader("text")));
+                             ResourcesManager::GetFont("assets/fonts/dogica.ttf"), ResourcesManager::GetShader("text")));
    m_quitButton->setPosition({ windowSize.x / 2, windowSize.y / 6 });
 }
 
@@ -51,7 +52,10 @@ void MainMenuState::handleEvent(SDL_Event const& event)
    {
       glm::vec2 mousePos = { static_cast<float>(event.button.x), static_cast<float>(m_game.getWindow().getSize().y - event.button.y) };
       if (m_playButton->isClicked(mousePos))
-         NeptuneProject::GetLogger().logDebug("TODO");
+      {
+         m_game.pushState<PhaseOneState>();
+         m_game.popState();
+      }
       if (m_creditsButton->isClicked(mousePos))
       {
          m_game.pushState<CreditsState>();

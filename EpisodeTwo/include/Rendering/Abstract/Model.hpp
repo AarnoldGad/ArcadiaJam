@@ -1,9 +1,9 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include <Rendering/Renderable.hpp>
-#include <Rendering/Transforms.hpp>
-#include <Rendering/VertexArray.hpp>
+#include <Rendering/Abstract/Renderable.hpp>
+#include <Rendering/Common/Transforms.hpp>
+#include <Rendering/OpenGL/VertexArray.hpp>
 
 template<typename V>
 class Model : public Transforms, public Renderable
@@ -24,6 +24,6 @@ protected:
    bool m_needUpdate;
 };
 
-#include <Rendering/Model.inl>
+#include <Rendering/Abstract/Model.inl>
 
 #endif // MODEL_HPP

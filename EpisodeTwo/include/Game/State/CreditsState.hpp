@@ -1,8 +1,8 @@
 #ifndef CREDITSSTATE_HPP
 #define CREDITSSTATE_HPP
 
-#include <State.hpp>
-#include <Game/Rendering/Renderer2D.hpp>
+#include <Core/State.hpp>
+#include <Rendering/Common/Renderer2D.hpp>
 
 class CreditsState : public State
 {

@@ -1,6 +1,6 @@
 #include <NeptuneProject.hpp>
 #include <Core/Logger.hpp>
-#include <State.hpp>
+#include <Core/State.hpp>
 
 Logger NeptuneProject::s_logger("Episode Two");
 bool NeptuneProject::s_gladInitialized = false;

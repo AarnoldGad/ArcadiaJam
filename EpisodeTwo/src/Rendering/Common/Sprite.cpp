@@ -1,4 +1,4 @@
-#include <Rendering/Sprite.hpp>
+#include <Rendering/Common/Sprite.hpp>
 #include <NeptuneProject.hpp>
 
 Sprite::Sprite(Texture const& texture)

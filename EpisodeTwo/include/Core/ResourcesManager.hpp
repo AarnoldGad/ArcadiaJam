@@ -2,9 +2,9 @@
 #define RESOURCESMANAGER_HPP
 
 #include <filesystem>
-#include <Rendering/Shader.hpp>
-#include <Rendering/Texture.hpp>
-#include <Text/Font.hpp>
+#include <Rendering/OpenGL/Shader.hpp>
+#include <Rendering/OpenGL/Texture.hpp>
+#include <Rendering/Text/Font.hpp>
 
 // TODO Go for shared_ptr storage to prevent destroying an object being used elsewhere
 class ResourcesManager

@@ -1,4 +1,4 @@
-#include <Rendering/Camera.hpp>
+#include <Rendering/Common/Camera.hpp>
 
 Camera::Camera(glm::vec2 pos, glm::vec4 viewport, float rotation)
  : Transforms(pos, {0.f, 0.f}, {1.f, 1.f}, rotation)

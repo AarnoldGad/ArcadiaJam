@@ -1,5 +1,5 @@
 #include <NeptuneProject.hpp>
-#include <Text/Font.hpp>
+#include <Rendering/Text/Font.hpp>
 
 Font::Font()
  : m_size(0) {}

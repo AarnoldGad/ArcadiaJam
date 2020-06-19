@@ -1,8 +1,8 @@
 #ifndef MODEL2D_HPP
 #define MODEL2D_HPP
 
-#include <Rendering/Model.hpp>
-#include <Rendering/Vertex2D.hpp>
+#include <Rendering/Abstract/Model.hpp>
+#include <Rendering/Common/Vertex2D.hpp>
 
 class Model2D : public Model<Vertex2D>
 {

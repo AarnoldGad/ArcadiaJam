@@ -1,8 +1,8 @@
 #ifndef MENURENDERER_HPP
 #define MENURENDERER_HPP
 
-#include <Rendering/Renderer.hpp>
-#include <Rendering/Button.hpp>
+#include <Rendering/Abstract/Renderer.hpp>
+#include <Rendering/GUI/Button.hpp>
 
 class Renderer2D : public Renderer
 {

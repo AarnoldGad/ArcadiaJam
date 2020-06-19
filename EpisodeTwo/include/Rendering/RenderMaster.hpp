@@ -1,7 +1,7 @@
 #ifndef RENDERMASTER_HPP
 #define RENDERMASTER_HPP
 
-#include <Rendering/Renderer.hpp>
+#include <Rendering/Abstract/Renderer.hpp>
 
 class RenderMaster
 {

@@ -1,4 +1,4 @@
-#include <Rendering/Texture.hpp>
+#include <Rendering/OpenGL/Texture.hpp>
 #include <NeptuneProject.hpp>
 #include <Core/Logger.hpp>
 

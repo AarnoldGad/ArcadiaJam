@@ -1,8 +1,8 @@
 #ifndef MAINMENUSTATE_HPP
 #define MAINMENUSTATE_HPP
 
-#include <State.hpp>
-#include <Game/Rendering/Renderer2D.hpp>
+#include <Core/State.hpp>
+#include <Rendering/Common/Renderer2D.hpp>
 
 class MainMenuState : public State
 {
@@ -26,8 +26,6 @@ private:
    std::unique_ptr<Button> m_playButton;
    std::unique_ptr<Button> m_creditsButton;
    std::unique_ptr<Button> m_quitButton;
-   
-   uint32_t m_buttonHoverTime;
 };
 
 #endif // MAINMENUSTATE_HPP

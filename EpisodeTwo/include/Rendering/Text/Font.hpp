@@ -1,7 +1,7 @@
 #ifndef FONT_HPP
 #define FONT_HPP
 
-#include <Text/Glyph.hpp>
+#include <Rendering/Text/Glyph.hpp>
 
 class Font
 {

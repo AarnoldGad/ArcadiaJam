@@ -1,4 +1,4 @@
-#include <Rendering/Button.hpp>
+#include <Rendering/GUI/Button.hpp>
 
 Button::Button(Texture const& texture)
  : Sprite(texture), m_textShader(nullptr)
@@ -24,6 +24,9 @@ void Button::render(RenderStates const& states)
       m_textShader->setMatrix4("Projection", states.getProjection());
       
       m_text.setPosition(getPosition());
+      m_text.setRotation(getRotation());
+      m_text.setScale(getScale());
+      
       m_text.render(RenderStates(*m_textShader, states.getView(), states.getProjection()));
       
       states.getShader().bind();

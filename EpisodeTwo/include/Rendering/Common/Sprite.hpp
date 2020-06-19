@@ -1,7 +1,7 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
-#include <Rendering/Model2D.hpp>
+#include <Rendering/Common/Model2D.hpp>
 
 class Sprite : public Model2D
 {

@@ -1,4 +1,4 @@
-#include <Game/Rendering/Renderer2D.hpp>
+#include <Rendering/Common/Renderer2D.hpp>
 
 Renderer2D::Renderer2D(Shader const& shader, glm::mat4 view, glm::mat4 projection)
  : Renderer(shader, view, projection) {}

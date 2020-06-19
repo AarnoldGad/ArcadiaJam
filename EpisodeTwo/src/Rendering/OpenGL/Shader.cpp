@@ -1,4 +1,4 @@
-#include <Rendering/Shader.hpp>
+#include <Rendering/OpenGL/Shader.hpp>
 #include <NeptuneProject.hpp>
 #include <Util/FileHelper.hpp>
 #include <Core/Logger.hpp>

@@ -1,7 +1,7 @@
 #ifndef SIMPLEVERTEX_HPP
 #define SIMPLEVERTEX_HPP
 
-#include <Rendering/Vertex.hpp>
+#include <Rendering/Abstract/Vertex.hpp>
 
 class Vertex2D : public Vertex
 {

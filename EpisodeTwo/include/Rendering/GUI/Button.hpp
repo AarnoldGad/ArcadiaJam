@@ -1,8 +1,8 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include <Text/Text.hpp>
-#include <Rendering/Sprite.hpp>
+#include <Rendering/Text/Text.hpp>
+#include <Rendering/Common/Sprite.hpp>
 
 class Button : public Sprite
 {

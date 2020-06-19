@@ -14,7 +14,7 @@ CreditsState::CreditsState(NeptuneProject& game)
    ResourcesManager::LoadShaderFile("sprite", "assets/shaders/sprite.vs", "assets/shaders/sprite.fs");
    ResourcesManager::LoadShaderFile("text", "assets/shaders/text.vs", "assets/shaders/text.fs");
    
-   ResourcesManager::LoadFontFile("assets/fonts/pixel.ttf", 32);
+   ResourcesManager::LoadFontFile("assets/fonts/dogica.ttf", 22);
    
    // Init
    glm::vec2 windowSize = m_game.getWindow().getSize();
@@ -30,16 +30,16 @@ CreditsState::CreditsState(NeptuneProject& game)
    m_background->setSize(windowSize);
    
    m_title.reset(new Sprite(ResourcesManager::GetTexture("assets/ui/title.png")));
-   m_title->setPosition({ windowSize.x / 2, windowSize.y - 20.f});
+   m_title->setPosition({ windowSize.x / 2, windowSize.y - 40.f});
    m_title->setOrigin({ m_title->getLocalBounds().z / 2.f, m_title->getLocalBounds().w });
    
    m_backButton.reset(new Button(ResourcesManager::GetTexture("assets/ui/back_arrow.png")));
    m_backButton->setPosition({ 30.f, 25.f });
    
-   m_credits.setFont(ResourcesManager::GetFont("assets/fonts/pixel.ttf"));
+   m_credits.setFont(ResourcesManager::GetFont("assets/fonts/dogica.ttf"));
    //A\nGame Designer\nKeromas\nA\nGraphics\nLucstanislash\nA\nSound Designed\nLecricreator\nA\nDevelopper\n- The Aarnold -
    m_credits.setText("DreamLoad Studio Team\n\n"
-                     "Lead\n KakarrotCake\n\n"
+                     "Lead\n   KakarrotCake\n\n"
                      "Game Designer\n   Keromas\n\n"
                      "Graphics\n   Lucstanislash\n\n"
                      "Sound Designer\n   Lecricreator\n\n"

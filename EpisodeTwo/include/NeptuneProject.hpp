@@ -4,7 +4,7 @@
 #include <Rendering/Window.hpp>
 #include <Rendering/RenderMaster.hpp>
 #include <Core/Logger.hpp>
-#include <State.hpp>
+#include <Core/State.hpp>
 
 class NeptuneProject
 {

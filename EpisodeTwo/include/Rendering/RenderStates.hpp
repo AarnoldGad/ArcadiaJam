@@ -1,7 +1,7 @@
 #ifndef RENDERSTATES_HPP
 #define RENDERSTATES_HPP
 
-#include <Rendering/Shader.hpp>
+#include <Rendering/OpenGL/Shader.hpp>
 
 class RenderStates
 {

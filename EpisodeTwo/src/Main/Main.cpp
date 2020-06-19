@@ -14,6 +14,15 @@ int main(int argc, char* argv[])
    
    SDL_ShowCursor(SDL_ENABLE);
    NeptuneProject::Quit();
+   
+   // TODO 18th June
+   // Refactor the whole mess
+   // Phase One
+   // Phase One Shader
+   // Planet struct
+   // Planet scenes
+   // Phase Two
+   // Scenes frames
 
    return 0;
 }

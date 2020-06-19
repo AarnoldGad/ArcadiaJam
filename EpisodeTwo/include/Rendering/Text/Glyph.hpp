@@ -1,7 +1,7 @@
 #ifndef GLYPH_HPP
 #define GLYPH_HPP
 
-#include <Rendering/Texture.hpp>
+#include <Rendering/OpenGL/Texture.hpp>
 
 class Glyph
 {

@@ -1,4 +1,4 @@
-#include <Text/Text.hpp>
+#include <Rendering/Text/Text.hpp>
 
 float const Text::s_lineSpacingFactor = 0.15f;
 

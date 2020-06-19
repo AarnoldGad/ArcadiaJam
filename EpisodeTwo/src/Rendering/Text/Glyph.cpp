@@ -1,4 +1,4 @@
-#include <Text/Glyph.hpp>
+#include <Rendering/Text/Glyph.hpp>
 
 Glyph::Glyph(glm::ivec2 size, glm::ivec2 bearing, unsigned int advance, uint8_t const* data)
  : m_size(size), m_bearing(bearing), m_advance(advance)

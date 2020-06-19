@@ -1,4 +1,4 @@
-#include <Rendering/Model2D.hpp>
+#include <Rendering/Common/Model2D.hpp>
 
 Model2D::Model2D(unsigned int mode, size_t vertexCount, unsigned int usage)
  : Model(mode, vertexCount, usage), m_texture(nullptr), m_textureRect(0.f), m_globalColor(1.f), m_bounds(0.f), m_needUpdateBounds(true) {}

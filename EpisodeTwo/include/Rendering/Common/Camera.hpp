@@ -2,7 +2,7 @@
 #define CAMERA_HPP
 
 #include <glm/gtc/type_ptr.hpp>
-#include <Rendering/Transforms.hpp>
+#include <Rendering/Common/Transforms.hpp>
 
 class Camera : public Transforms
 {
