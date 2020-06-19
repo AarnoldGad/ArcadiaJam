@@ -1,11 +1,11 @@
 #include <Core/ResourcesManager.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Core/Logger.hpp>
 
 std::map<std::filesystem::path, std::unique_ptr<std::fstream>> ResourcesManager::s_files;
 std::map<std::string, std::unique_ptr<Shader>> ResourcesManager::s_shaders;
 std::map<std::filesystem::path, std::unique_ptr<Texture>> ResourcesManager::s_textures;
-std::map<std::filesystem::path, std::unique_ptr<Font>> ResourcesManager::s_fonts;
+std::map<std::pair<std::filesystem::path, int>, std::unique_ptr<Font>> ResourcesManager::s_fonts;
 
 std::unique_ptr<Texture> ResourcesManager::nullTexture;
 
@@ -28,7 +28,7 @@ bool ResourcesManager::LoadFile(std::filesystem::path const& filePath, std::ios_
    
    if (!*result.first->second)
    {
-      NeptuneProject::GetLogger().logError("Unable to open file : ", filePath);
+      Application::GetLogger().logError("Unable to open file : ", filePath);
       return false;
    }
    
@@ -73,7 +73,7 @@ Shader& ResourcesManager::GetShader(std::string const& name)
    }
    catch (std::out_of_range& e)
    {
-      NeptuneProject::GetLogger().logError("Unable to retrieve shader ", name);
+      Application::GetLogger().logError("Unable to retrieve shader ", name);
       exit(-1);
    }
 }
@@ -107,36 +107,36 @@ bool ResourcesManager::UnloadTexture(std::filesystem::path const& file)
    return s_textures.erase(relative(file));
 }
 
-bool ResourcesManager::LoadFontFile(std::filesystem::path const& file, int fontSize)
+bool ResourcesManager::LoadFontFile(std::filesystem::path const& file, int size)
 {
-   auto result = s_fonts.emplace(relative(file), std::make_unique<Font>());
-   return result.second ? result.first->second->loadFromFile(file, fontSize) : true;
+   auto result = s_fonts.emplace(std::make_pair(relative(file), size), std::make_unique<Font>());
+   return result.second ? result.first->second->loadFromFile(file, size) : true;
 }
 
-bool ResourcesManager::IsFontLoaded(std::filesystem::path const& file)
+bool ResourcesManager::IsFontLoaded(std::filesystem::path const& file, int size)
 {
-   return s_fonts.find(relative(file)) != s_fonts.end();
+   return s_fonts.find(std::make_pair(relative(file), size)) != s_fonts.end();
 }
 
-Font& ResourcesManager::GetFont(std::filesystem::path const& file)
+Font& ResourcesManager::GetFont(std::filesystem::path const& file, int size)
 {
-   if (!IsFontLoaded(file) /*&& !LoadFontFile(file, 16)*/)
+   if (!IsFontLoaded(file, size) && !LoadFontFile(file, size))
    {
-      NeptuneProject::GetLogger().logError("Unable to retrieve font ", file);
+      Application::GetLogger().logError("Unable to retrieve font ", file);
       exit(-1);
    }
    
-   return *s_fonts.at(relative(file));
+   return *s_fonts.at(std::make_pair(relative(file), size));
 }
 
-bool ResourcesManager::UnloadFont(std::filesystem::path const& file)
+bool ResourcesManager::UnloadFont(std::filesystem::path const& file, int size)
 {
-   return s_fonts.erase(relative(file));
+   return s_fonts.erase(std::make_pair(relative(file), size));
 }
 
 void ResourcesManager::Clear()
 {
-   NeptuneProject::GetLogger().logDebug("Unloading");
+   Application::GetLogger().logDebug("Unloading");
    s_files.clear();
    s_shaders.clear();
    s_textures.clear();

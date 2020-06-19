@@ -1,5 +1,5 @@
 #include <Rendering/OpenGL/Texture.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Core/Logger.hpp>
 
 Texture::Texture()
@@ -15,14 +15,14 @@ bool Texture::loadFromFile(std::string const& file)
    uint8_t* data = stbi_load(file.c_str(), &width, &height, &numChannel, 0);
    if (!data)
    {
-      NeptuneProject::GetLogger().logError("Unable to load image at : ", file);
+      Application::GetLogger().logError("Unable to load image at : ", file);
       return false;
    }
    else
    {
       loadFromMemory({ width, height }, (numChannel == 4 ? GL_RGBA : (numChannel == 3 ? GL_RGB : (numChannel == 2 ? GL_RG : GL_RED))), data);
       stbi_image_free(data);
-      NeptuneProject::GetLogger().logDebug("Texture ", file, " loaded");
+      Application::GetLogger().logDebug("Texture ", file, " loaded");
       return true;
    }
 }

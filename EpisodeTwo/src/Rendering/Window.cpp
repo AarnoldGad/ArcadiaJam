@@ -1,5 +1,5 @@
 #include <Rendering/Window.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Core/Logger.hpp>
 
 Window::Window(std::string const& title, glm::vec4 rect, uint32_t flags)
@@ -26,14 +26,14 @@ Window::Window(std::string const& title, glm::vec4 rect, uint32_t flags)
    m_window = SDL_CreateWindow(title.c_str(), rect.x, rect.y, rect.z, rect.w, SDL_WINDOW_OPENGL | flags);
    if (!m_window)
    {
-      NeptuneProject::GetLogger().logError("Window creation error : ", SDL_GetError());
+      Application::GetLogger().logError("Window creation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }   
       
    m_context = SDL_GL_CreateContext(m_window);
    if (!m_context)
    {
-      NeptuneProject::GetLogger().logError("Context creation error : ", SDL_GetError());
+      Application::GetLogger().logError("Context creation error : ", SDL_GetError());
       exit(1); // TODO Error handling
    }
 }

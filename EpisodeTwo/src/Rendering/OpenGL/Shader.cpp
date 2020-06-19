@@ -1,5 +1,5 @@
 #include <Rendering/OpenGL/Shader.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Util/FileHelper.hpp>
 #include <Core/Logger.hpp>
 
@@ -67,7 +67,7 @@ bool Shader::checkCompileStatus(unsigned int shader) const
    if (!success)
    {
       glGetShaderInfoLog(shader, 512, nullptr, log);
-      NeptuneProject::GetLogger().logError(type == GL_VERTEX_SHADER ? "vertex" : (type == GL_FRAGMENT_SHADER ? "fragment" : "geometry"),
+      Application::GetLogger().logError(type == GL_VERTEX_SHADER ? "vertex" : (type == GL_FRAGMENT_SHADER ? "fragment" : "geometry"),
                                         " shader compilation error : ", log);
       return false;
    }
@@ -83,11 +83,11 @@ bool Shader::checkLinkStatus(unsigned int program) const
    if (!success)
    {
       glGetProgramInfoLog(program, 512, nullptr, log);
-      NeptuneProject::GetLogger().logError("Shader linking error : ", log);
+      Application::GetLogger().logError("Shader linking error : ", log);
       return false;
    }
    
-   NeptuneProject::GetLogger().logDebug("Program ", program, " link successful");
+   Application::GetLogger().logDebug("Program ", program, " link successful");
    return true;
 }
 
@@ -104,7 +104,7 @@ int Shader::getUniformLocation(std::string const& name) const
       location = glGetUniformLocation(m_program, name.c_str());
       
       if (location == -1 || location == GL_INVALID_VALUE)
-         NeptuneProject::GetLogger().logError("Unable to retrieve uniform location for value ", name, " in shader ", m_program);
+         Application::GetLogger().logError("Unable to retrieve uniform location for value ", name, " in shader ", m_program);
       else
          m_uniforms.emplace(name, location);
    }

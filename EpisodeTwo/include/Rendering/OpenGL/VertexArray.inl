@@ -4,7 +4,7 @@ VertexArray<V>::VertexArray(GLenum mode, size_t vertexCount, GLenum usage)
 {
    if (!std::is_base_of<Vertex, V>::value)
    {
-      NeptuneProject::GetLogger().logError("Not deriving from Vertex");
+      Application::GetLogger().logError("Not deriving from Vertex");
       exit(-1);
    }
    
@@ -68,7 +68,7 @@ V& VertexArray<V>::at(size_t index)
 {
    if (index >= getVertexCount())
    {
-      NeptuneProject::GetLogger().logDebug("Vertex Array Out of Bound ", index);
+      Application::GetLogger().logDebug("Vertex Array Out of Bound ", index);
       exit(-1); // TODO Error handling
    }
    

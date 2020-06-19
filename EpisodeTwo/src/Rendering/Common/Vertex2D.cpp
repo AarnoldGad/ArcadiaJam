@@ -1,5 +1,5 @@
 #include <Rendering/Common/Vertex2D.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 
 Vertex2D::Vertex2D(glm::vec2 pos, glm::vec4 color, glm::vec2 textureCoordinates)
  : m_pos(pos), m_color(color), m_textureCoordinates(textureCoordinates) {}
@@ -39,7 +39,7 @@ AttribInfo Vertex2D::getAttribInfo(size_t location) const
          info.normalized = GL_FALSE;
          return info;
       default:
-         NeptuneProject::GetLogger().logError("No attribute information at location ", location);
+         Application::GetLogger().logError("No attribute information at location ", location);
          return info;
    }
 }
@@ -55,7 +55,7 @@ void const* Vertex2D::getAttrib(size_t location) const
       case 2:
          return glm::value_ptr(m_textureCoordinates);
       default:
-         NeptuneProject::GetLogger().logError("No attribute at location ", location);
+         Application::GetLogger().logError("No attribute at location ", location);
          return nullptr;
    }
 }

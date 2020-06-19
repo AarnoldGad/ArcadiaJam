@@ -1,5 +1,5 @@
 #include <Rendering/Common/Sprite.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 
 Sprite::Sprite(Texture const& texture)
  : Model2D(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_size(texture.getSize()), m_targetColor(1.f), m_replaceColor(1.f)

@@ -8,7 +8,7 @@ class PhaseOneState : public State
 {
 public:
    
-   explicit PhaseOneState(NeptuneProject& game);
+   explicit PhaseOneState(Game& game);
    virtual ~PhaseOneState() = default;
    
    void handleEvent(SDL_Event const& event);
@@ -17,9 +17,7 @@ public:
    
 private:
    
-   std::unique_ptr<Renderer2D> m_cursorRenderer;
    
-   std::unique_ptr<Sprite> m_cursor;
 };
 
 #endif // PHASEONESTATE_HPP

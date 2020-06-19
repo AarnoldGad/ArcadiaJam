@@ -103,7 +103,7 @@ Texture const& Model2D::getTexture() const
       return *m_texture;
    else
    {
-      NeptuneProject::GetLogger().logError("Nullptr Texture");
+      Application::GetLogger().logError("Nullptr Texture");
       exit(-1);
    }
 }

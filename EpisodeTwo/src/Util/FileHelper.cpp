@@ -1,5 +1,5 @@
 #include <Util/FileHelper.hpp>
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Core/Logger.hpp>
 
 std::stringstream FileHelper::ToStream(std::string const& name)
@@ -15,7 +15,7 @@ std::stringstream FileHelper::ToStream(std::string const& name)
    }
    catch (std::ifstream::failure& e)
    {
-      NeptuneProject::GetLogger().logError("Unable to read file at : ", name);
+      Application::GetLogger().logError("Unable to read file at : ", name);
       return std::stringstream();
    }
 

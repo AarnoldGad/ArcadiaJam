@@ -1,7 +1,7 @@
 #ifndef VERTEXARRAY_HPP
 #define VERTEXARRAY_HPP
 
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Rendering/Abstract/Vertex.hpp>
 
 template<typename V>

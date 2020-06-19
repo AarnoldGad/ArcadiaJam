@@ -8,7 +8,7 @@ class MainMenuState : public State
 {
 public:
    
-   explicit MainMenuState(NeptuneProject& game);
+   explicit MainMenuState(Game& game);
    virtual ~MainMenuState() = default;
    
    void handleEvent(SDL_Event const& event);
@@ -19,7 +19,6 @@ private:
    
    std::unique_ptr<Renderer2D> m_menuRenderer;
    
-   std::unique_ptr<Sprite> m_cursor;
    std::unique_ptr<Sprite> m_background;
    std::unique_ptr<Sprite> m_title;
    

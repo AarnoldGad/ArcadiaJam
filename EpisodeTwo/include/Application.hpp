@@ -1,12 +1,12 @@
-#ifndef NEPTUNEPROJECT_HPP
-#define NEPTUNEPROJECT_HPP
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 
 #include <Rendering/Window.hpp>
 #include <Rendering/RenderMaster.hpp>
 #include <Core/Logger.hpp>
-#include <Core/State.hpp>
+#include <Core/Game.hpp>
 
-class NeptuneProject
+class Application
 {
 public:
 
@@ -17,15 +17,10 @@ public:
    
    static Logger& GetLogger();
    
-   NeptuneProject();
+   Application();
    
-   template<typename S, typename... A>
-   void run(A&&... args);
+   void run(Game* game);
    void stop();
-   
-   template<typename S, typename... A>
-   void pushState(A&&... args);
-   void popState();
 
    inline Window& getWindow() { return m_mainWindow; }
 
@@ -41,10 +36,7 @@ private:
    bool m_running;
    Window m_mainWindow;
    RenderMaster m_renderMaster;
-   std::queue<std::unique_ptr<State>> m_states;
-   unsigned int m_shouldPop;
+   std::unique_ptr<Game> m_game;
 };
 
-#include <NeptuneProject.inl>
-
-#endif // NEPTUNEPROJECT_HPP
+#endif // APPLICATION_HPP

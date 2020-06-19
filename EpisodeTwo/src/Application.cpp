@@ -1,13 +1,13 @@
-#include <NeptuneProject.hpp>
+#include <Application.hpp>
 #include <Core/Logger.hpp>
 #include <Core/State.hpp>
 
-Logger NeptuneProject::s_logger("Episode Two");
-bool NeptuneProject::s_gladInitialized = false;
-bool NeptuneProject::s_ftInitialized = false;
-FT_Library NeptuneProject::s_freetype = nullptr;
+Logger Application::s_logger("Episode Two");
+bool Application::s_gladInitialized = false;
+bool Application::s_ftInitialized = false;
+FT_Library Application::s_freetype = nullptr;
 
-void NeptuneProject::Init(uint32_t flags)
+void Application::Init(uint32_t flags)
 {
    s_logger.setOutputFile("ajep2.log");
    GetLogger().logDebug("Initialising Episode Two...");
@@ -56,12 +56,12 @@ void NeptuneProject::Init(uint32_t flags)
    ResourcesManager::Init();
 }
 
-Logger& NeptuneProject::GetLogger()
+Logger& Application::GetLogger()
 { 
    return s_logger;
 }
 
-void NeptuneProject::Quit()
+void Application::Quit()
 {
    SDL_Quit();
    FT_Done_FreeType(s_freetype);
@@ -69,10 +69,18 @@ void NeptuneProject::Quit()
    s_ftInitialized = false;
 }
 
-NeptuneProject::NeptuneProject()
- : m_running(false), m_mainWindow("Arcadia Jam Ep2", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600 }), m_shouldPop(0) {}
+Application::Application()
+ : m_running(false), m_mainWindow("Arcadia Jam Ep2", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600 }) {}
 
-void NeptuneProject::gameLoop()
+void Application::run(Game* game)
+{
+   m_game.reset(game);
+   m_running = true;
+   GetLogger().logDebug("Running game...");
+   gameLoop();
+}
+
+void Application::gameLoop()
 {
    SDL_Event event;
    uint32_t deltaTime, startTime = SDL_GetTicks();
@@ -81,11 +89,8 @@ void NeptuneProject::gameLoop()
    {
       deltaTime = SDL_GetTicks() - startTime;
       startTime = SDL_GetTicks();
-      
-      for (; m_shouldPop > 0; --m_shouldPop)
-         m_states.pop();
          
-      State& currentState = *m_states.front();
+      m_game->updateState();
       
       while (SDL_PollEvent(&event))
       {
@@ -96,16 +101,16 @@ void NeptuneProject::gameLoop()
                   stop();
                break;
             default:
-               currentState.handleEvent(event);
+               m_game->handleEvent(event);
                break;
          }
       }
       
-      currentState.update(deltaTime);
+      m_game->update(deltaTime);
       
       m_mainWindow.clear({ 0.8f, 0.5f, 0.2f, 1.0f });
       
-      currentState.render(m_renderMaster);
+      m_game->render(m_renderMaster);
       m_renderMaster.finish();
       
       m_mainWindow.swapBuffers();
@@ -116,13 +121,7 @@ void NeptuneProject::gameLoop()
    }
 }
 
-void NeptuneProject::popState()
-{
-   if (++m_shouldPop >= m_states.size())
-      m_shouldPop = m_states.size() ? m_states.size() - 1 : 0;
-}
-
-void NeptuneProject::stop()
+void Application::stop()
 {
    m_running = false;
 }
