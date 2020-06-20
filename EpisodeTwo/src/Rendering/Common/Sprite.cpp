@@ -1,10 +1,13 @@
 #include <Rendering/Common/Sprite.hpp>
 #include <Application.hpp>
 
+Sprite::Sprite()
+ : Model2D(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_size(0.f), m_targetColor(1.f), m_replaceColor(1.f) {}
+
 Sprite::Sprite(Texture const& texture)
  : Model2D(GL_TRIANGLE_STRIP, 4, GL_STATIC_DRAW), m_size(texture.getSize()), m_targetColor(1.f), m_replaceColor(1.f)
 {
-   setTexture(texture);
+   setTexture(texture, true);
 }
 
 void Sprite::render(RenderStates const& states)
@@ -21,6 +24,12 @@ void Sprite::updatePositions()
    m_vertexArray[1].setPosition({ 0.f     , m_size.y });
    m_vertexArray[2].setPosition({ m_size.x, 0.f      });
    m_vertexArray[3].setPosition({ m_size.x, m_size.y });
+}
+
+void Sprite::setTexture(Texture const& texture, bool resetRect)
+{
+   m_size = texture.getSize();
+   Model2D::setTexture(texture, resetRect);
 }
 
 void Sprite::setSize(glm::uvec2 size)

@@ -13,9 +13,9 @@ public:
    
    virtual void render(RenderStates const& states) override;
    
-   void setTexture(Texture const& texture, bool resetRect = true);
-   void setTextureRect(glm::vec4 rect);
-   void setColor(glm::vec4 color);
+   virtual void setTexture(Texture const& texture, bool resetRect = true);
+   virtual void setTextureRect(glm::vec4 rect);
+   virtual void setColor(glm::vec4 color);
    
    Texture const& getTexture() const;
    inline glm::vec4 getTextureRect() const { return m_textureRect; }

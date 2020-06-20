@@ -12,9 +12,10 @@ int main(int argc, char* argv[])
    Application::Quit();
    
    // TODO 18th June
-   // Refactor the whole mess -> Per Object Shader, UI classes, etc...
    // Phase One
    // Phase One Shader
+   // Dialog Box
+   // Info Box
    // Planet struct
    // Planet scenes
    // Phase Two

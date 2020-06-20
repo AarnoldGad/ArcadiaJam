@@ -1,5 +1,20 @@
 #include <Rendering/GUI/Button.hpp>
 
+Button::Button(glm::vec4 color)
+ : m_textShader(nullptr)
+{
+   setColor(color);
+   setOrigin({ getSize().x / 2, getSize().y / 2 });
+}
+
+Button::Button(glm::vec4 color, std::string const& text, Font const& font, Shader const& textShader)
+ : m_text(text, font), m_textShader(&textShader)
+{
+   setColor(color);
+   setOrigin({ getSize().x / 2, getSize().y / 2 });
+   m_text.setOrigin({ m_text.getLocalBounds().z / 2, m_text.getLocalBounds().w / 2});
+}
+
 Button::Button(Texture const& texture)
  : Sprite(texture), m_textShader(nullptr)
 {
@@ -35,7 +50,7 @@ void Button::render(RenderStates const& states)
 
 bool Button::isClicked(glm::vec2 point)
 {
-   glm::vec4 aabb = { getPosition() - getOrigin(), getSize() };
+   glm::vec4 aabb = { (getPosition() - getOrigin()) * getScale(), glm::vec2(getSize()) * getScale() };
    if (point.x > aabb.x && point.x < aabb.x + aabb.z
     && point.y > aabb.y && point.y < aabb.y + aabb.w)
           return true;

@@ -19,6 +19,7 @@ CreditsState::CreditsState(Game& game)
    
    m_backButton.reset(new Button(ResourcesManager::GetTexture("assets/ui/menu_button.png")));
    m_backButton->setPosition({ m_backButton->getSize().x / 2.f + 25.f, m_backButton->getSize().y / 2.f + 20.f });
+   m_backButton->setScale({ 0.5f, 0.5f });
    
    m_credits.setFont(ResourcesManager::GetFont("assets/fonts/dogica.ttf", 22));
    m_credits.setText("DreamLoad Studio Team\n\n"

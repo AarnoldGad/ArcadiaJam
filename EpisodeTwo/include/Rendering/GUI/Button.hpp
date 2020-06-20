@@ -4,12 +4,17 @@
 #include <Rendering/Text/Text.hpp>
 #include <Rendering/Common/Sprite.hpp>
 
+// TODO Totally rework :)
 class Button : public Sprite
 {
 public:
    
-   Button(Texture const& texture);
+   explicit Button(glm::vec4 color);
+   Button(glm::vec4 color, std::string const& text, Font const& font, Shader const& textShader);
+   
+   explicit Button(Texture const& texture);
    Button(Texture const& texture, std::string const& text, Font const& font, Shader const& textShader);
+
    virtual ~Button() = default;
    
    virtual void render(RenderStates const& states) override;

@@ -17,6 +17,7 @@ NeptuneProject::NeptuneProject(Application& app)
    ResourcesManager::LoadShaderFile("basic", "assets/shaders/basic.vs", "assets/shaders/basic.fs");
    ResourcesManager::LoadShaderFile("sprite", "assets/shaders/sprite.vs", "assets/shaders/sprite.fs");
    ResourcesManager::LoadShaderFile("text", "assets/shaders/text.vs", "assets/shaders/text.fs");
+   ResourcesManager::LoadShaderFile("solar", "assets/shaders/basic.vs", "assets/shaders/solar.fs");
    
    // Load Fonts
    ResourcesManager::LoadFontFile("assets/fonts/dogica.ttf", 22);
